@@ -42,9 +42,22 @@ void Body::DisplayInfo()
 	std::cout << "v: ", velocity.Display();
 }
 
-void Body::addForce(Vec2 v)
+void Body::addForce(Vec2 f)
 {
+	force = f;
+}
 
+Vec2 Body::getForce()
+{
+	return force;
+}
 
+void Body::addForceX(float k)
+{
+	force.setX(k);
+}
 
+void Body::addForceY(float k)
+{
+	force.setY(k);
 }

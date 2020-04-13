@@ -7,6 +7,16 @@ void Vec2::Set(float x_, float y_)
 	y = y_;
 }
 
+void Vec2::setX(float x_)
+{
+	x = x_;
+}
+
+void Vec2::setY(float y_)
+{
+	y = y_;
+}
+
 //Calculando algunas propiedades del vector.
 float Vec2::Length()
 {

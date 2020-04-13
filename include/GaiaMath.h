@@ -11,6 +11,8 @@ public:
 
 	//Asignar valores a las componentes del vector. 
 	void Set(float x_, float y_);
+	void setX(float x_);
+	void setY(float y_);
 
 	//Propiedades del vector. 
 	float Length();

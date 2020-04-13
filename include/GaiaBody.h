@@ -24,12 +24,15 @@ public:
 	void DisplayInfo();
 
 	//Aplicación de fuerzas
-	void addForce(Vec2 v);
+	void addForce(Vec2 f);
+	Vec2 getForce();
+	void addForceX(float k);
+	void addForceY(float k);
 
 private:
 	float mass;
 	float invMass = 1 / mass;
 	Vec2 position;
 	Vec2 velocity;
-	Vec2 force;
+	Vec2 force = Vec2(0.0f, 0.0f);
 };
