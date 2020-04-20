@@ -23,7 +23,7 @@ public:
 	//Operaciones con vectores. 
 	void operator += (const Vec2& v); //Pass by reference. 
 	void operator -= (const Vec2& v);
-	
+
 	float Dot(const Vec2& a, const Vec2& b);
 	float Cross(const Vec2& a, const Vec2& b);
 

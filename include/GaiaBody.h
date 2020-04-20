@@ -1,3 +1,6 @@
+#ifndef BODY_H
+#define BODY_H
+
 #include "GaiaMath.h"
 
 struct Body
@@ -18,3 +21,5 @@ public:
 	Vec2 velocity;
 	Vec2 force = Vec2(0.0f, 0.0f); //La mejoraremos eventualmente. 
 };
+
+#endif

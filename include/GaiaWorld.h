@@ -1,3 +1,6 @@
+#ifndef WORLD_H
+#define WORLD_H
+
 #include "GaiaBody.h"
 
 struct World //Se encarga de hacer las iteraciones necesarias para la simulación. 
@@ -18,3 +21,5 @@ struct World //Se encarga de hacer las iteraciones necesarias para la simulación
 	Vec2 gravity;
 	std::vector<Body*> bodies;
 };
+
+#endif
