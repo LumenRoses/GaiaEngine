@@ -1,0 +1,12 @@
+﻿  main.cpp
+C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\6-A-REAL-LEVEL\main.cpp(210,16): warning C4805: '==': unsafe mix of type 'float' and type 'bool' in operation
+C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\6-A-REAL-LEVEL\main.cpp(215,21): warning C4805: '==': unsafe mix of type 'float' and type 'bool' in operation
+C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\6-A-REAL-LEVEL\main.cpp(220,21): warning C4805: '==': unsafe mix of type 'float' and type 'bool' in operation
+C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\6-A-REAL-LEVEL\main.cpp(225,21): warning C4805: '==': unsafe mix of type 'float' and type 'bool' in operation
+C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\6-A-REAL-LEVEL\main.cpp(230,21): warning C4805: '==': unsafe mix of type 'float' and type 'bool' in operation
+C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\6-A-REAL-LEVEL\main.cpp(236,12): warning C4805: '==': unsafe mix of type 'float' and type 'bool' in operation
+C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\6-A-REAL-LEVEL\main.cpp(238,34): warning C4805: '==': unsafe mix of type 'float' and type 'bool' in operation
+C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\6-A-REAL-LEVEL\main.cpp(243,38): warning C4805: '==': unsafe mix of type 'float' and type 'bool' in operation
+C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\6-A-REAL-LEVEL\main.cpp(22,15): warning C4101: 'event': unreferenced local variable
+C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\6-A-REAL-LEVEL\main.cpp(24,11): warning C4101: 'dt': unreferenced local variable
+  6-A-REAL-LEVEL.vcxproj -> C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\Debug\6-A-REAL-LEVEL.exe

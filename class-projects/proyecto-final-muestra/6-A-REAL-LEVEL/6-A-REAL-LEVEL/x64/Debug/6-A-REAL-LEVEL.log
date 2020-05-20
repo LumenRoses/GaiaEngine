@@ -1,0 +1,7 @@
+﻿  AnimatedSprite.cpp
+C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\6-A-REAL-LEVEL\AnimatedSprite.h(4,10): fatal error C1083: Cannot open include file: 'SFML/Graphics/RenderTarget.hpp': No such file or directory
+  Animation.cpp
+C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\6-A-REAL-LEVEL\Animation.h(5,10): fatal error C1083: Cannot open include file: 'SFML/Graphics/Rect.hpp': No such file or directory
+  main.cpp
+C:\Users\alber\Desktop\TEACHING\MyPhysicsEngine\6-A-REAL-LEVEL\6-A-REAL-LEVEL\main.cpp(10,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Generating Code...
