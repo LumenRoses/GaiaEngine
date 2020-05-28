@@ -13,34 +13,43 @@ class MyContactListener : public b2ContactListener
         b2Fixture* f1 = contact->GetFixtureA();
         b2Fixture* f2 = contact->GetFixtureB();
 
-        b2Body* b1 = f1->GetBody();
-        b2Body* b2 = f2->GetBody();
+        void* o1 = f1->GetUserData();
+        void* o2 = f2->GetUserData();
 
-        void* o1 = b1->GetUserData();
-        void* o2 = b2->GetUserData();
-
-        if ((int)o1 == 1 && (int)o2 == 2)
+        if ((int)o1 == 1)
         {
             onAir = false;
-            cout << "Touched ground!" << endl;
+            cout << "Reached ground." << endl;
         }
+
+        if ((int)o2 == 1)
+        {
+            onAir = false;
+            cout << "Reached ground." << endl;
+        }
+
     }
 
     void EndContact(b2Contact* contact)
     {
+
         b2Fixture* f1 = contact->GetFixtureA();
         b2Fixture* f2 = contact->GetFixtureB();
 
-        b2Body* b1 = f1->GetBody();
-        b2Body* b2 = f2->GetBody();
+        void* o1 = f1->GetUserData();
+        void* o2 = f2->GetUserData();
 
-        void* o1 = b1->GetUserData();
-        void* o2 = b2->GetUserData();
-
-        if ((int)o1 == 1 && (int)o2 == 2)
+        if ((int)o1 == 1)
         {
             onAir = true;
-            cout << "On air!" << endl;
+            cout << "Left ground." << endl;
         }
-   }
+
+        if ((int)o2 == 1)
+        {
+            onAir = true;
+            cout << "Left ground." << endl;
+        }
+        
+    }
 };

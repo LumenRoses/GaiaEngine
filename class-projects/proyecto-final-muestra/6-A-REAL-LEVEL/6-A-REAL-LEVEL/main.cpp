@@ -107,19 +107,26 @@ int main()
     /* --------- USANDO BOX2D --------- */
 
     //Crear el mundo. Se define primero la gravedad y luego el mundo. Recuerda que la gravedad se va ajustando poco a poco. 
+
     b2Vec2 gravity(0.0f, 20.0f);
     b2World world(gravity);
 
-    MyContactListener mainlistener; //IGNORE FOR NOW.
-    world.SetContactListener(&mainlistener); //IGNORE FOR NOW.
+    /*
+        Se utiliza un contact listener si es necesario realizar una acción cuando se lleve a cabo un contacto entre dos cuerpos. 
+        Siempre recuerda el ejemplo de "Spongify" de Harry Potter. Quizás no lo hicieron de esa forma, pero estoy seguro que es posible. 
+    */
+
+    MyContactListener mainlistener; //Objeto tipo MyContactListener. 
+    world.SetContactListener(&mainlistener); //Agregar el contact listener a el world. 
 
     /*
         Definir el suelo. Se inicia haciendo un BodyDef y se da la posición inicial del mismo. 
         Luego un pointer como se muestra. 
         El cuerpo debe ser agregado al mundo. Esta es la forma recomendada por Box2D.
     */
+
     b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(335.0f / PPM, 563.0f / PPM); //Esto lo sacamos en el OneNote. 
+    groundBodyDef.position.Set( 333.5f / PPM, 564.5f / PPM ); //Esto lo sacamos en el OneNote. 
     b2Body* groundBody = world.CreateBody(&groundBodyDef); //Agregamos el cuerpo al mundo. 
 
     /*
@@ -127,42 +134,74 @@ int main()
         Nos limitaremos a esta forma para esta materia (me refiero a la forma de rectángulo).
         Las dimensiones de la caja son divididas a la mitad según la documentación de Box2D.
     */
-    b2PolygonShape groundBox;
-    groundBox.SetAsBox( 335.0f / PPM,  51.5f / PPM); //Esto lo hicimos en el Notebook.
 
-    groundBody->SetUserData((void*)1); //IGNORE FOR NOW.
+    b2PolygonShape groundBox;
+    groundBox.SetAsBox( 333.5f / PPM,  51.5f / PPM ); //Esto lo hicimos en el Notebook.
+    groundBody->SetUserData((void*)"floor"); //El "floor" es un tag para identificar al cuerpo. Esto es para la detección de colisiones. 
 
     /*
         Se agrega la forma al cuerpo y se configura la densidad como 0.
         Por default, el cuerpo está definido como estático (no se mueve). 
         El valor que ponemos como 0.0f es la densidad. 
     */
+
     groundBody->CreateFixture(&groundBox,0.0f);
 
     /*
+        Creando las demás plataformas.
+    */
+
+    b2BodyDef groundBodyDef2;
+    groundBodyDef2.position.Set( 790.5f / PPM, 564.5f / PPM);
+    b2Body* groundBody2 = world.CreateBody(&groundBodyDef2);
+    b2PolygonShape groundBox2;
+    groundBox2.SetAsBox( 55.5f / PPM, 46.5f / PPM);
+    groundBody2->SetUserData((void*)"floor");
+    groundBody2->CreateFixture(&groundBox2, 0.0f);
+
+    b2BodyDef boulderBodyDef; 
+    boulderBodyDef.position.Set(877.5f / PPM, 525.0f / PPM);
+    b2Body* boulderBody = world.CreateBody(&boulderBodyDef);
+    b2PolygonShape boulderBox; 
+    boulderBox.SetAsBox(63.5f / PPM, 110.0f / PPM);
+    boulderBody->CreateFixture(&boulderBox, 0.0f);
+    
+    /*
         Ahora crearemos un cuerpo dinámico para nuestro personaje. 
     */
+
     b2BodyDef characterBodyDef;
     characterBodyDef.type = b2_dynamicBody; //Por default el cuerpo es "estático" como el suelo. En este caso hay que especificar dinámico.
     characterBodyDef.position.Set(10.0f / PPM, 10.0f / PPM); //Posición inicial del personaje. 
     characterBodyDef.angle = 0.0f; 
     characterBodyDef.fixedRotation = true; //Esto es para que el personaje no rote al colisionar con algo. 
     b2Body* characterBody = world.CreateBody(&characterBodyDef); //Con las características, creamos el cuerpo. 
+
     b2PolygonShape characterBox;
-    characterBox.SetAsBox(k1 * 34.0f / PPM, k2 * 35.0f / PPM); //Como hice setScale al sprite antes, debo tomar eso en cuenta aquí. 
+    characterBox.SetAsBox(k1 * 5.0f / PPM, k2 * 17.5f / PPM); //Como hice setScale al sprite antes, debo tomar eso en cuenta aquí. 
     
     /* Para cuerpos dinámicos, definiremos las propiedades físicas que se conocen como Fixtures. */
+
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &characterBox; 
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.0f;
     characterBody->CreateFixture(&fixtureDef); //Agregamos estos fixtures al cuerpo. 
 
-    characterBody->SetUserData((void*)2); //IGNORE FOR NOW. 
+    /*
+        Para mejorar la física del salto, es necesario colocar un sensor en los pies del personaje. 
+    */
+
+    characterBox.SetAsBox(5.0f / PPM, 5.0f / PPM, b2Vec2(0, k2 * 17.5f / PPM), 0);
+    fixtureDef.isSensor = true; 
+    b2Fixture* sensorFixture = characterBody->CreateFixture(&fixtureDef);
+    sensorFixture->SetUserData((void*)1);
 
     //Posición inicial del sprite. 
     animatedSprite.setPosition(sf::Vector2f(characterBody->GetPosition().x * PPM, characterBody->GetPosition().y * PPM));
+    animatedSprite.setOrigin(sf::Vector2f(17.0f, 17.5f));
 
+    //Variables de control de movimiento. 
     float upFlag = false;
     float rightFlag = false;
     float leftFlag = false;
@@ -172,6 +211,11 @@ int main()
     //Iniciamos con el loop que funciona mientras la ventana esté abierta. 
     while (window.isOpen())
     {
+        /*
+            Mucho de lo que está aquí abajo es la lógica de caminar, correr y saltar. Esta es la lógica que yo desarrollé para mi programa. 
+            Si utilizan esta lógica, deben entenderla al 100% para la entrevista el día del proyecto final. 
+        */
+
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -252,28 +296,35 @@ int main()
             }
         }
 
-        
+        //Aquí lo que hacemos es "darle play" a la animación que haya sido definida. 
         animatedSprite.play(*currentAnimation);
+
+        //Recordemos que es necesario darle la posición al sprite. Box2D hace los cálculos pero para ver los cambios se necesita modificar el sprite.
         animatedSprite.setPosition(sf::Vector2f(characterBody->GetPosition().x * PPM, characterBody->GetPosition().y * PPM));
+
+        /*
+            Usamos el world Step() como haciamos con nuestro engine. ¡En Box2D es lo mismo!
+            El número 6 son "velocities iterations" y el número 2 son "position iterations". Estos son los valores recomendados por Box2D.
+        */
 
         world.Step(clock.restart().asSeconds(), 6, 2);
 
-        //Limpiar la ventana. 
+        //Actualizamos el frame de la animación. 
         animatedSprite.update(clock.restart());
 
-        //Dibujar el fondo. Debe ser dibujado en el orden adecuado.
+        //Limpiamos la ventana. Siempre se debe limpiar la ventana y dibujar todo nuevamente. 
         window.clear();
 
+        //Dibujamos los layers del background. 
         window.draw(layer2bg);
         window.draw(layer3bg);
         window.draw(layer4bg);
 
-        //Dibujar al robot. 
+        //Dibujamos el sprite del chibi robot. 
         window.draw(animatedSprite);
 
-         //Mostrar dibujos en la ventana.
+        //Mostramos los dibujos en la ventana. 
         window.display();
     }
     return 0;
 }
-
